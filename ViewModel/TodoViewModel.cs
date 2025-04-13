@@ -12,7 +12,7 @@ namespace To_Do_List.ViewModel;
 
 public partial class TodoViewModel : ObservableObject
 {
-    public ObservableCollection<TodoItem> Items = TodoService.Istance.Items;
+    public ObservableCollection<TodoItem> Items { get; set; } = TodoService.Istance.Items;
 
     [ObservableProperty]
     bool isRefreshing = false;
@@ -46,7 +46,8 @@ public partial class TodoViewModel : ObservableObject
             if (Items.Count > 0)
                 Items.Clear();
 
-            Items = TodoService.Istance.Items;
+            foreach(var item in TodoService.Istance.Items)
+                Items.Add(item);
         }
         catch (Exception ex)
         {
