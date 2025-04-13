@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:To_Do_List.ViewModel"
+             x:Class="To_Do_List.View.CreateTodoPage">
+
+    <VerticalStackLayout HorizontalOptions="Center">
+        <Label Text="Titolo"/>
+        <Entry Text="{Binding Title}"/>
+        <Label Text="Descrizione"/>
+        <Entry Text="{Binding Description}"/>
+        <Label Text="Importanza"/>
+        <Picker ItemsSource="{Binding Priorities}"
+                SelectedItem="{Binding SelectedPriority}"/>
+        <Grid ColumnDefinitions="*,*">
+            <Button Text="Aggiungi"
+                    Command="{Binding SaveCommand}"
+                    Grid.Column="0"
+                    BackgroundColor="{StaticResource AddColor}"/>
+            <Button Text="Cancel"
+                    Grid.Column="1"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="{StaticResource CancelColor}"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

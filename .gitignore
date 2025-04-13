@@ -1,0 +1,60 @@
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# .NET MAUI specific
+bin/
+obj/
+
+# Windows specific files
+*.user
+*.vs
+.vscode/
+.vs2019/
+
+# macOS specific files
+.vscode/
+.idea/
+.DS_Store
+
+# Android
+.idea/
+.gradle/
+build/
+intermediates/
+local.properties
+
+# iOS
+DerivedData/
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# JetBrains Rider
+.idea/
+
+# Visual Studio for Mac
+.vscode/
+.idea/
+
+# .NET Core SDK
+dotnet/
+
+# Backup files
+*~
+*.bak
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
