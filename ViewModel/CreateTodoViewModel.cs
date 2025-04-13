@@ -36,7 +36,7 @@ public partial class CreateTodoViewModel : ObservableObject
         TodoService.Istance.Items.Add(newTodo);
         await Shell.Current.DisplayAlert("Success", $"Aggiunto {newTodo.Title} con successo", "OK");
         CancelInputAsync();
-        await Shell.Current.GoToAsync("..");
+        await Shell.Current.GoToAsync("..", true);
     }
 
     [RelayCommand]
