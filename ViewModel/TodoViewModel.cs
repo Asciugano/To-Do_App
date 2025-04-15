@@ -60,4 +60,18 @@ public partial class TodoViewModel : ObservableObject
             IsRefreshing = false;
         }
     }
+    
+    [RelayCommand]
+    async Task DeleteItemAsync(TodoItem item)
+    {
+        try
+        {
+            TodoService.Istance.Items.Remove(item);
+            await Shell.Current.DisplayAlert("Task eliminata", $"{item.Title} Rimossa con successo", "OK");
+        }
+        catch(Exception ex)
+        {
+            await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
+        }
+    }
 }

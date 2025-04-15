@@ -26,17 +26,24 @@ public partial class CreateTodoViewModel : ObservableObject
     [RelayCommand]
     async Task SaveAsync()
     {
-        if(string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Description))
+        try
         {
-            await Shell.Current.DisplayAlert("Error", "Devi inserire tutti i campi", "OK");
-            return ;
+            if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Description))
+            {
+                await Shell.Current.DisplayAlert("Error", "Devi inserire tutti i campi", "OK");
+                return;
+            }
+
+            var newTodo = new TodoItem(Title, Description, SelectedPriority);
+            TodoService.Istance.Items.Add(newTodo);
+            await Shell.Current.DisplayAlert("Success", $"Aggiunto {newTodo.Title} con successo", "OK");
+            CancelInputAsync();
+            await Shell.Current.GoToAsync("..", true);
         }
-        
-        var newTodo = new TodoItem(Title, Description, SelectedPriority);
-        TodoService.Istance.Items.Add(newTodo);
-        await Shell.Current.DisplayAlert("Success", $"Aggiunto {newTodo.Title} con successo", "OK");
-        CancelInputAsync();
-        await Shell.Current.GoToAsync("..", true);
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
+        }
     }
 
     [RelayCommand]

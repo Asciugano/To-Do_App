@@ -8,7 +8,6 @@ public partial class TodoItem : ObservableObject
     public int Id { get; }
     public string Title { get; set; }
     public string? Description { get; set; }
-
     [ObservableProperty]
     public bool isCompleted;
     public PriorityLevel Priority { get; set; }
