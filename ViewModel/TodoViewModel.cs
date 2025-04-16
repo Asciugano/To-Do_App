@@ -74,4 +74,16 @@ public partial class TodoViewModel : ObservableObject
             await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
         }
     }
+    
+    [RelayCommand]
+    async Task GoToDetailsPageAsync(TodoItem todoItem)
+    {
+        if(todoItem is null)
+            return ;
+        
+        await Shell.Current.GoToAsync(nameof(DetailsView), true, new Dictionary<string, object>
+        {
+            { "todoItem", todoItem }
+        });
+    }
 }

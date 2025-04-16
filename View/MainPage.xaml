@@ -52,6 +52,10 @@
                                 </SwipeView.LeftItems>
                                 <Border HeightRequest="125"
                                         Style="{StaticResource CardView}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TodoViewModel}}, x:DataType=viewmodel:TodoViewModel, Path=GoToDetailsPageCommand}"
+                                                              CommandParameter="{Binding .}"/>
+                                    </Border.GestureRecognizers>
                                     <Grid ColumnDefinitions="Auto,*,Auto"
                                           RowDefinitions="*,*"
                                           VerticalOptions="Center"

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:To_Do_List.ViewModel"
+             x:DataType="viewmodel:DetailTodoViewModel"
+             x:Class="To_Do_List.View.DetailsView">
+
+       <Grid ColumnDefinitions="*,*"
+             HorizontalOptions="Center">
+              <VerticalStackLayout Grid.ColumnSpan="2">
+                     <Label Text="Titolo"
+                            Margin="10"
+                            Style="{StaticResource LargeLabel}"/>
+                     <Entry Text="{Binding Title}"
+                            Margin="10"
+                            IsVisible="{Binding IsChanging}"/>
+                     <Label Text="Descrizione"
+                            Margin="10"
+                            Style="{StaticResource LargeLabel}"/>
+                     <Entry Text="{Binding Description}"
+                            Margin="10"
+                            IsVisible="{Binding IsChanging}"/>
+                     <Label Text="Importanza"
+                            Margin="10"
+                            Style="{StaticResource LargeLabel}"/>
+                     <Picker IsVisible="{Binding IsChanging}"
+                             ItemsSource="{Binding Priorities}"
+                             SelectedItem="{Binding SelectedPriority}"/>
+              </VerticalStackLayout>
+              <HorizontalStackLayout Grid.RowSpan="1">
+                     <Button Text="Modifica"
+                             Style="{StaticResource DefaultButton}"
+                             BackgroundColor="{StaticResource DoColor}"
+                             Command="{Binding ToggleChangingCommand}"/>
+                     <Button Text="Cancel"
+                             Style="{StaticResource DefaultButton}"
+                             BackgroundColor="{StaticResource CancelColor}"
+                             Command="{Binding GoBackCommand}"/>
+              </HorizontalStackLayout>
+       </Grid>
+
+</ContentPage>
