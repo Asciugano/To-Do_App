@@ -5,15 +5,31 @@
              x:DataType="viewmodel:CreateTodoViewModel"
              x:Class="To_Do_List.View.CreateTodoPage">
 
-        <VerticalStackLayout HorizontalOptions="Center">
-                <Label Text="Titolo"/>
-                <Entry Text="{Binding Title}"/>
-                <Label Text="Descrizione"/>
-                <Entry Text="{Binding Description}"/>
-                <Label Text="Importanza"/>
-                <Picker ItemsSource="{Binding Priorities}"
-                        SelectedItem="{Binding SelectedPriority}"/>
-                <Grid ColumnDefinitions="*,*">
+        <Grid RowDefinitions="*,Auto">
+                <ScrollView Grid.Row="0">
+                        <VerticalStackLayout HorizontalOptions="Fill">
+                                <Label Text="Titolo"
+                                       Margin="10"
+                                       Style="{StaticResource MediumLabel}"/>
+                                <Entry Text="{Binding Title}"
+                                       Margin="10"/>
+                                <Label Text="Descrizione"
+                                       Margin="10"
+                                       Style="{StaticResource MediumLabel}"/>
+                                <Entry Text="{Binding Description}"
+                                       Margin="10"/>
+                                <Label Text="Importanza"
+                                       Margin="10"
+                                       Style="{StaticResource MediumLabel}"/>
+                                <Picker ItemsSource="{Binding Priorities}"
+                                        Margin="10"
+                                        SelectedItem="{Binding SelectedPriority}"/>
+                        </VerticalStackLayout>
+                </ScrollView>
+                <Grid Grid.Row="1"
+                      VerticalOptions="End"
+                      HorizontalOptions="Fill"
+                      ColumnDefinitions="*,*">
                         <Button Text="Aggiungi"
                                 Command="{Binding SaveCommand}"
                                 Style="{StaticResource DefaultButton}"
@@ -25,5 +41,5 @@
                                 Command="{Binding GoBackCommand}"
                                 BackgroundColor="{StaticResource CancelColor}"/>
                 </Grid>
-        </VerticalStackLayout>
+        </Grid>
 </ContentPage>
