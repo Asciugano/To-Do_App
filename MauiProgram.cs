@@ -19,10 +19,11 @@ public static class MauiProgram
 		
 		builder.Services.AddSingleton<TodoViewModel>();
 		builder.Services.AddSingleton<CreateTodoViewModel>();
-		builder.Services.AddSingleton<DetailTodoViewModel>();
+
+		builder.Services.AddTransient<DetailTodoViewModel>();
 		
 		builder.Services.AddSingleton<CreateTodoPage>();
-		builder.Services.AddSingleton<DetailsView>();
+		builder.Services.AddTransient<DetailsView>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

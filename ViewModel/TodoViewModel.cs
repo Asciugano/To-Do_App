@@ -81,9 +81,9 @@ public partial class TodoViewModel : ObservableObject
         if(todoItem is null)
             return ;
         
-        await Shell.Current.GoToAsync(nameof(DetailsView), true, new Dictionary<string, object>
+        await Shell.Current.GoToAsync($"{nameof(DetailsView)}", true, new Dictionary<string, object>
         {
-            { "todoItem", todoItem }
+            { "TodoItem", todoItem }
         });
     }
 }

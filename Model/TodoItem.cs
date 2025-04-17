@@ -6,11 +6,18 @@ public partial class TodoItem : ObservableObject
 {
     private static int _nextID = 1;
     public int Id { get; }
-    public string Title { get; set; }
-    public string? Description { get; set; }
+
+    [ObservableProperty]
+    public string title;
+
+    [ObservableProperty]
+    public string description;
+
     [ObservableProperty]
     public bool isCompleted;
-    public PriorityLevel Priority { get; set; }
+
+    [ObservableProperty]
+    public PriorityLevel priority;
     public DateTime CreatedAt { get; }
     
     public TodoItem(string title, string description, PriorityLevel priorityLevel = PriorityLevel.Medium)
