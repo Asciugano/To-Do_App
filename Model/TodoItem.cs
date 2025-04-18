@@ -8,6 +8,9 @@ public partial class TodoItem : ObservableObject
     public int Id { get; }
 
     [ObservableProperty]
+    public int listId;
+
+    [ObservableProperty]
     public string title;
 
     [ObservableProperty]
