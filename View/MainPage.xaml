@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="To_Do_List.View.MainPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:To_Do_List.ViewModel"
+             xmlns:model="clr-namespace:To_Do_List.Model"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:DataType="viewmodel:ListTodoViewModel">
+
+    <RefreshView IsRefreshing="False">
+        <!-- Command="{Binding GetAllItemsCommand}"> -->
+        <Grid RowDefinitions="*, Auto">
+            <CollectionView Grid.Row="0"
+                            ItemsSource="{Binding ListTodo}"
+                            SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="10"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Image Source="paperella_spaesata.png"
+                               Aspect="Fill"
+                               WidthRequest="272"
+                               HeightRequest="272"/>
+                        <Label Text="Non c'é nulla da fare"
+                               Margin="0, 20, 0, 0"
+                               Style="{StaticResource LargeLabel}"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:ListTodo">
+                        <StackLayout Padding="10">
+                            <SwipeView>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems Mode="Execute">
+                                        <SwipeItemView BackgroundColor="{StaticResource CancelColor}"
+                                                       CommandParameter="{Binding .}"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListTodoViewModel}}, x:DataType=viewmodel:ListTodoViewModel, Path=RemoveListCommand}">
+                                            <Grid Padding="20, 0"
+                                                  WidthRequest="300"
+                                                  HorizontalOptions="Fill"
+                                                  VerticalOptions="Center">
+
+                                                <Label Text="Elimina"
+                                                       HorizontalOptions="Start"
+                                                       VerticalOptions="Center"
+                                                       Style="{StaticResource MediumLabel}"/>
+                                            </Grid>
+                                        </SwipeItemView>
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <Border HeightRequest="125"
+                                        Style="{StaticResource CardView}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListTodoViewModel}}, x:DataType=viewmodel:ListTodoViewModel, Path=GoToItemsPageCommand}"
+                                                              CommandParameter="{Binding .}"/>
+                                    </Border.GestureRecognizers>
+                                    <Grid ColumnDefinitions="Auto,*,Auto"
+                                          RowDefinitions="*,*"
+                                          VerticalOptions="Center"
+                                          Padding="10">
+                                        <VerticalStackLayout Grid.Column="1">
+                                            <Label Text="{Binding Name}"
+                                                   Margin="10, 0, 0, 0"
+                                                   Grid.Row="0"
+                                                   Style="{StaticResource LargeLabel}"/>
+                                            <Label Text="{Binding Count}"
+                                                   Margin="10, 3, 0, 0"
+                                                   Grid.Row="1"
+                                                   Style="{StaticResource SmallLabel}"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </SwipeView>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <HorizontalStackLayout HorizontalOptions="Center"
+                                   Grid.Row="1">
+                <Button Text="Crea una Lista"
+                        Style="{StaticResource DefaultButton}"
+                        Command="{Binding CreateNewListCommand}"
+                        BackgroundColor="{StaticResource AddColor}"/>
+            </HorizontalStackLayout>
+        </Grid>
+    </RefreshView>
+</ContentPage>

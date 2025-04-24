@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:To_Do_List.ViewModel"
+             x:DataType="viewmodel:CreateTodoViewModel"
+             x:Class="To_Do_List.View.CreateTodoPage">
+
+        <Grid RowDefinitions="*,Auto">
+                <ScrollView Grid.Row="0">
+                        <VerticalStackLayout HorizontalOptions="Fill">
+                                <Label Text="Titolo"
+                                       Margin="10"
+                                       Style="{StaticResource MediumLabel}"/>
+                                <Entry Text="{Binding Title}"
+                                       Margin="10"/>
+                                <Label Text="Descrizione"
+                                       Margin="10"
+                                       Style="{StaticResource MediumLabel}"/>
+                                <Entry Text="{Binding Description}"
+                                       Margin="10"/>
+                                <Label Text="Importanza"
+                                       Margin="10"
+                                       Style="{StaticResource MediumLabel}"/>
+                                <Picker ItemsSource="{Binding Priorities}"
+                                        Margin="10"
+                                        SelectedItem="{Binding SelectedPriority}"/>
+                        </VerticalStackLayout>
+                </ScrollView>
+                <Grid Grid.Row="1"
+                      VerticalOptions="End"
+                      HorizontalOptions="Fill"
+                      ColumnDefinitions="*,*">
+                        <Button Text="Aggiungi"
+                                Command="{Binding SaveCommand}"
+                                Style="{StaticResource DefaultButton}"
+                                Grid.Column="0"
+                                BackgroundColor="{StaticResource AddColor}"/>
+                        <Button Text="Cancel"
+                                Style="{StaticResource DefaultButton}"
+                                Grid.Column="1"
+                                Command="{Binding GoBackCommand}"
+                                BackgroundColor="{StaticResource CancelColor}"/>
+                </Grid>
+        </Grid>
+</ContentPage>

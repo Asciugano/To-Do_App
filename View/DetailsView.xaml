@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:To_Do_List.ViewModel"
+             x:DataType="viewmodel:DetailTodoViewModel"
+             x:Class="To_Do_List.View.DetailsView">
+
+       <Grid RowDefinitions="*, Auto">
+              <ScrollView Grid.Row="0">
+                     <VerticalStackLayout>
+                            <Label Text="{Binding TodoItem.Title}"
+                                   Padding="10"
+                                   Margin="10, 0, 0, 0"
+                                   Style="{StaticResource LargeLabel}"/>
+                            <Entry Text="{Binding Title}"
+                                   Margin="10"
+                                   IsEnabled="True"
+                                   IsVisible="{Binding IsChanging}"/>
+                            <Label Text="{Binding TodoItem.Description}"
+                                   Padding="10"
+                                   Margin="10, 0, 0, 0"
+                                   Style="{StaticResource LargeLabel}"/>
+                            <Entry Text="{Binding Descrizione}"
+                                   Margin="10, 0, 0, 0"
+                                   IsEnabled="True"
+                                   IsVisible="{Binding IsChanging}"/>
+                            <Label Text="{Binding TodoItem.Priority}"
+                                   Padding="10"
+                                   Margin="10, 0, 0, 0"
+                                   Style="{StaticResource LargeLabel}"/>
+                            <Picker IsVisible="{Binding IsChanging}"
+                                   Margin="10,0,0,0"
+                                    ItemsSource="{Binding Priorities}"
+                                    IsEnabled="True"
+                                    SelectedItem="{Binding SelectedPriority}"/>
+                     </VerticalStackLayout>
+              </ScrollView>
+              <Grid Grid.Row="1"
+                    ColumnDefinitions="*,*"
+                    RowDefinitions="*,*"
+                    VerticalOptions="End"
+                    HorizontalOptions="Fill">
+                     <Button Text="Salva"
+                             Grid.Row="0"
+                             Grid.ColumnSpan="2"
+                             Padding="10"
+                             IsVisible="{Binding IsChanging}"
+                             BackgroundColor="{StaticResource Primary}"
+                             Command="{Binding SaveCommand}"
+                             Style="{StaticResource DefaultButton}"/>
+                     <Button Text="Modifica"
+                             Grid.Column="0"
+                             Grid.Row="1"
+                             Style="{StaticResource DefaultButton}"
+                             BackgroundColor="{StaticResource DoColor}"
+                             Command="{Binding ToggleChangingCommand}"/>
+                     <Button Text="Cancel"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Style="{StaticResource DefaultButton}"
+                             BackgroundColor="{StaticResource CancelColor}"
+                             Command="{Binding GoBackCommand}"/>
+              </Grid>
+       </Grid>
+</ContentPage>
