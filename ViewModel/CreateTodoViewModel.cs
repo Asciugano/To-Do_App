@@ -40,7 +40,7 @@ public partial class CreateTodoViewModel : ObservableObject
 
             var newTodo = new TodoItem(Title, Description, ListTodo.Id, SelectedPriority);
             await TodoService.AddTodoItemInListTodo(ListTodo, newTodo);
-            await Shell.Current.DisplayAlert("Success", $"Aggiunto {newTodo.Title} con successo", "OK");
+            await Shell.Current.DisplayAlert("Success", $"Aggiunto {newTodo.Title}, con listID: {newTodo.ListId} la lista ha id: {ListTodo.Id} con successo", "OK");
             CancelInputAsync();
             await Shell.Current.GoToAsync("..", true);
         }
@@ -56,7 +56,7 @@ public partial class CreateTodoViewModel : ObservableObject
         await Shell.Current.GoToAsync("..", true);
     }
     
-    async private void CancelInputAsync()
+    private async void CancelInputAsync()
     {
         Title = "";
         Description = "";

@@ -11,15 +11,33 @@ using To_Do_List.View;
 namespace To_Do_List.ViewModel;
 
 [QueryProperty ($"{nameof(ListTodo)}", "ListTodo")]
+// [QueryProperty($"{nameof(ListTodo)}", "ListTodoID")]
 public partial class TodoViewModel : ObservableObject
 {
+    [ObservableProperty]
+    int listTodoID;
+
     [ObservableProperty]
     ListTodo? listTodo;
 
     [ObservableProperty]
     bool isRefreshing = false;
     
+    public TodoViewModel()
+    {
+    }
+    
     public ObservableCollection<TodoItem> Items { get; set; } = new();
+
+    partial void OnListTodoIDChanged(int value)
+    {
+        LoadListAsync();
+    }
+    
+    async void LoadListAsync()
+    {
+        ListTodo = await DatabaseService.GetListTodoByID(ListTodoID);
+    }
 
     [RelayCommand]
     async Task GoToCreatePageAsync()
@@ -46,31 +64,6 @@ public partial class TodoViewModel : ObservableObject
             await Shell.Current.DisplayAlert("Nulla trovato", "non ho trovato nulla di importatnte da fare", "OK"); 
     }
 
-    [RelayCommand]
-    async Task GetAllItemsAsync()
-    {
-        IsRefreshing = true;
-        try
-        {
-            var itemDB = await DatabaseService.GetTodoItemsInListTodo(ListTodo.Id);
-            if(Items.Count <= 0)
-                Items.Clear();
-            foreach(var item in itemDB)
-            {
-                Items.Add(item);
-            }
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
-            return ;
-        }
-        finally
-        {
-            IsRefreshing = false;
-        }
-    }
-    
     [RelayCommand]
     async Task DeleteItemAsync(TodoItem item)
     {
@@ -101,5 +94,30 @@ public partial class TodoViewModel : ObservableObject
     async Task GoBackAsync()
     {
         await Shell.Current.GoToAsync("..", true);
+    }
+    
+    [RelayCommand]
+    async Task GetAllItemsAsync()
+    {
+        IsRefreshing = true;
+        try
+        {
+            var itemDB = await DatabaseService.GetTodoItemsInListTodo(ListTodo.Id);
+
+            if(Items.Count <= 0)
+                Items.Clear();
+            foreach(var item in itemDB)
+            {
+                Items.Add(item);
+            }
+        }
+        catch(Exception ex)
+        {
+            await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
     }
 }

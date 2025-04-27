@@ -10,7 +10,10 @@ namespace To_Do_List.ViewModel;
 public partial class ListTodoViewModel : ObservableObject
 {
     public ObservableCollection<ListTodo> ListTodo { get; set; } = TodoService.Istance.ItemList;
-    
+
+    [ObservableProperty]
+    bool isRefreshing = false;
+
     [RelayCommand]
     async Task CreateNewListAsync()
     {
@@ -22,13 +25,13 @@ public partial class ListTodoViewModel : ObservableObject
             maxLength: 100,
             keyboard: Keyboard.Default
         );
-        
-        if(title is null)
+
+        if (title is null)
         {
             await Shell.Current.DisplayAlert("ERROR", "Devi inserire un titolo per creare una lista", "OK");
-            return ;
+            return;
         }
-        
+
         try
         {
             TodoService.Istance.ItemList.Add(new ListTodo(title));
@@ -40,13 +43,13 @@ public partial class ListTodoViewModel : ObservableObject
             await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
         }
     }
-    
+
     [RelayCommand]
     async Task RemoveListAsync(ListTodo list)
     {
         try
         {
-            TodoService.Istance.ItemList.Remove(list);
+            await TodoService.DeleteTodoListAsync(list);
             await Shell.Current.DisplayAlert("Lista eliminata", $"{list.Name} eliminata con successo", "OK");
         }
         catch (Exception ex)
@@ -54,16 +57,63 @@ public partial class ListTodoViewModel : ObservableObject
             await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
         }
     }
-    
+
     [RelayCommand]
     async Task GoToItemsPageAsync(ListTodo listTodo)
     {
-        if(listTodo is null)
-            return ;
-        
-        await Shell.Current.GoToAsync($"{nameof(ItemsPage)}", true, new Dictionary<string, object>
+        if (listTodo is null)
+            return;
+
+        try
         {
-            { "ListTodo", listTodo }
-        });
+            await Shell.Current.GoToAsync($"{nameof(ItemsPage)}", true, new Dictionary<string, object>
+            {
+                { "ListTodo", listTodo }
+            });
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
+        }
+    }
+    // [RelayCommand]
+    // async Task GoToItemsPageAsync(ListTodo listTodo)
+    // {
+    //     if(listTodo is null)
+    //         return ;
+
+    //     try
+    //     {
+    //         await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?ListTodoID={listTodo.Id}");
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
+    //     }
+    // }
+
+    [RelayCommand]
+    async Task GetAllListAsync()
+    {
+        IsRefreshing = true;
+
+        try
+        {
+            var ListDB = await DatabaseService.GetAllListTodo();
+            if (ListTodo.Count <= 0)
+                ListTodo.Clear();
+            foreach (var list in ListDB)
+            {
+                ListTodo.Add(list);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
     }
 }

@@ -8,8 +8,8 @@
              ios:Page.UseSafeArea="True"
              x:DataType="viewmodel:ListTodoViewModel">
 
-    <RefreshView IsRefreshing="False">
-        <!-- Command="{Binding GetAllItemsCommand}"> -->
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding GetAllListCommand}">
         <Grid RowDefinitions="*, Auto">
             <CollectionView Grid.Row="0"
                             ItemsSource="{Binding ListTodo}"

@@ -13,24 +13,30 @@ public class TodoService
     public ObservableCollection<ListTodo> ItemList { get; set; } = new();
 
     private static TodoService _istance;
-    public static  TodoService Istance => _istance ??= new TodoService();
-    
+    public static TodoService Istance => _istance ??= new TodoService();
+
     public static async Task AddTodoItemInListTodo(ListTodo listTodo, TodoItem item)
     {
         try
         {
+            if (listTodo is null || item is null)
+                return;
+
+            if (listTodo.Id == 0 || item.ListId == 0)
+                return;
+
             listTodo.Count++;
             await DatabaseService.AddTodoItem(item);
             // listTodo.Items.Add(item);
             await Shell.Current.DisplayAlert("SUCCESSO", $"{item.Title} aggiunto con successo", "OK");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
-            return ;
+            return;
         }
     }
-    
+
     public static async Task RemoveItemInListTodo(ListTodo listTodo, TodoItem item)
     {
         try
@@ -42,60 +48,66 @@ public class TodoService
         catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("ERROR", $"{ex.Message}", "OK");
-            return ;
+            return;
         }
     }
+
+    public static async Task DeleteTodoListAsync(ListTodo listTodo)
+    {
+        Istance.ItemList.Remove(listTodo);
+        await DatabaseService.DeleteListTodo(listTodo);
+    }
     // public static TodoItem? GetMostImportant(ListTodo list) => list.Items.OrderByDescending(i => i.Priority).FirstOrDefault();
-    
+
     public static async Task<TodoItem?> GetMostImportant(int listID)
     {
         var items = await DatabaseService.GetTodoItemsInListTodo(listID);
         return items.OrderByDescending(i => i.Priority).FirstOrDefault();
     }
-    
+
     public async Task AggiornaItems()
     {
-        foreach(var item in Items)
+        foreach (var item in Items)
         {
             var oldItem = await DatabaseService.GetItemByID(item.Id);
-            if(oldItem is null)
+            if (oldItem is null)
                 await DatabaseService.AddTodoItem(item);
         }
     }
-    
+
     public async Task AggiornaList()
     {
-        foreach(var list in ItemList)
+        foreach (var list in ItemList)
         {
             var oldList = await DatabaseService.GetListTodoByID(list.Id);
-            if(oldList is null)
+            if (oldList is null)
                 await DatabaseService.AddListTodo(list);
-            
+
         }
         await RefreshListe();
     }
-    
-    public async Task RefreshListe() 
+
+    public async Task RefreshListe()
     {
         var listDB = await DatabaseService.GetAllListTodo();
-        if(listDB is null)
-            return ;
+        if (listDB is null)
+            return;
 
-        if(ItemList is null || ItemList.Count <= 0)
+        if (ItemList is null || ItemList.Count <= 0)
             ItemList.Clear();
         foreach (var list in listDB)
         {
             ItemList.Add(list);
         }
     }
-    
+
     public async Task RefreshItems(int listID)
     {
         var ItemsDB = await DatabaseService.GetTodoItemsInListTodo(listID);
-        if(ItemsDB is null)
-            return ;
-        
-        if(Items is null || Items.Count <= 0)
+        if (ItemsDB is null)
+            return;
+
+        if (Items is null || Items.Count <= 0)
             Items.Clear();
         foreach (var item in ItemsDB)
         {

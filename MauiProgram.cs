@@ -25,7 +25,6 @@ public static class MauiProgram
 		
 		builder.Services.AddSingleton<CreateTodoPage>();
 		builder.Services.AddTransient<DetailsView>();
-
 		builder.Services.AddTransient<ItemsPage>();
 
 #if DEBUG
