@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using To_Do_List.Model;
-using To_Do_List.Services;
 
 namespace To_Do_List.ViewModel;
 

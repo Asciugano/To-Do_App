@@ -1,9 +1,5 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.Input;
 using To_Do_List.Model;
-using To_Do_List.View;
 
 namespace To_Do_List.Services;
 
@@ -73,6 +69,12 @@ public class TodoService
             if (oldItem is null)
                 await DatabaseService.AddTodoItem(item);
         }
+    }
+    
+    public static async Task AddList(ListTodo list)
+    {
+        await DatabaseService.AddListTodo(list);
+        await Istance.AggiornaList();
     }
 
     public async Task AggiornaList()
